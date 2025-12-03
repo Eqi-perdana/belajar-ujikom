@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Taks extends Model
+class Task extends Model
 {
-    protected $fiiillable = [
+    protected $table = 'tasks'; // benar, tabel harus 'tasks'
+
+    protected $fillable = [
         'name',
         'status',
         'priority',
@@ -22,5 +24,4 @@ class Taks extends Model
         'status' => false,
         'priority' => 3,
     ];
-
 }
