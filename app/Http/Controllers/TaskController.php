@@ -7,11 +7,33 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function index()
-    {
-        $tasks = Task::orderBy('priority', 'asc')->get();
-        return view('tasks.index', compact('tasks'));
+   public function index(Request $request)
+{
+    $query = Task::query();
+
+    // Search (hanya berdasarkan name)
+    if ($request->search) {
+        $query->where('name', 'like', '%' . $request->search . '%');
     }
+
+    // Filter status
+    if ($request->status !== null && $request->status !== '') {
+        $query->where('status', $request->status);
+    }
+
+    // Filter priority
+    if ($request->priority !== null && $request->priority !== '') {
+        $query->where('priority', $request->priority);
+    }
+
+    // Urutkan berdasarkan priority
+    $query->orderBy('priority', 'asc');
+
+    // Pagination
+    $tasks = $query->paginate(10);
+
+    return view('tasks.index', compact('tasks'));
+}
 
     public function create()
     {
@@ -72,4 +94,16 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')
             ->with('success', 'Task berhasil dihapus');
     }
+
+    public function toggle($id)
+{
+    $task = Task::findOrFail($id);
+
+    // toggle status: jika 1 jadi 0, jika 0 jadi 1
+    $task->status = !$task->status;
+    $task->save();
+
+    return redirect()->route('tasks.index')
+        ->with('success', 'Status task berhasil diperbarui!');
+}
 }
