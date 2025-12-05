@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Daftar Task')
+@section('title', 'Daftar Tugas')
 
 @section('content')
     <div class="container mt-5">
@@ -70,7 +70,7 @@
                         <tr class="text-primary">
                             <th width="70">Id</th>
                             <th>Nama Task</th>
-                            <th width="140">Status</th>
+                            <th width="140" class="text-center">Status</th>
                             <th width="120">Prioritas</th>
                             <th width="160">Due Date</th>
                             <th width="220" class="text-center">Action</th>
